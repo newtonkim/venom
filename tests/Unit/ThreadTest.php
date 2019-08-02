@@ -7,19 +7,40 @@ use Illuminate\Foundation\Testing\DatabaseMigration;
 
 class ThreadTest extends TestCase
 {
+    use DatabaseMigration;
+
+    protected $thread;
+
+    public function setUp()
+    {
+        parent:setUp();
+
+        $this->$thread = factory ('App\Thread')->create();
+
+    }
     /**@Test*/
 
     function a_thread_has_a_reply()
     {
-        $thread = factory ('App\Thread')->create();
 
-        $this->assertInstanceOf('Illuminate\Database\Collection', $thread->replies);
+        $this->assertInstanceOf('Illuminate\Database\Collection', $this->$thread->replies);
     }
 
     function a_thread_has_a_creator()
     {
-        $thread = factory ('App\Thread')->create();
 
-        $this->assertInstanceOf('App\User', $thread->user);
+        $this->assertInstanceOf('App\User', $this->$thread->user);
+    }
+
+    public function a_thread_can_add_a_reply()
+    {
+
+        $this->thread->addReply([
+            'body' => 'Foobar',
+            'user_id' => '1'
+
+        ]);
+
+        $this->assertCount(1, $this->$thread->replies);
     }
 }
