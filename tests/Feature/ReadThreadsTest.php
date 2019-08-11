@@ -22,7 +22,7 @@ class ThreadTest extends TestCase
     {
 
         $response = $this->get('/threads')
-        ->assertSee($this->$thread->title);
+            ->assertSee($this->$thread->title);
 
 
     }
@@ -33,7 +33,6 @@ class ThreadTest extends TestCase
 
          $this->get('/threads/' .$thread->id)
             ->assertSee($this->$thread->title);
-
     }
 
     /** @test */
@@ -48,8 +47,17 @@ class ThreadTest extends TestCase
                 ->assertSee($reply->body);
 
         // we need to see the replies
+    }
 
+    function a_user_can_filter_threads_according_to_a_channel()
+    {
+        $channel = create('App\channel');
+        $threadInChannel = create('App\Thread', ['channel_id' => $channel->id]);
+        $threadNotInChannel = create('App\Thread');
 
+        $this->get('/threads/' . $channel->slug)
+                ->assertSee($threadInChannel->title)
+                ->assertDontSee($threadNotInChannel->title);
     }
 
 }

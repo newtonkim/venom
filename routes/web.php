@@ -15,13 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/threads', 'ThreadsController@index');
-Route::get('/threads/{thread}', 'ThreadsController@show');
-Route::post('/threads/{thread}/replies', 'RepliesController@store');
+Route::get('/threads', 'ThreadController@index');
+Route::get('/threads/create', 'ThreadController@create');
+Route::get('/threads/{channel}/{thread}', 'ThreadController@show');
+Route::post('/threads', 'ThreadController@store');
+Route::get('/threads/{channel}', 'ThreadController@index');
+Route::post('/threads/{channel}/{thread}/replies', 'RepliesController@store');
+// Route::resource('threads', 'ThreadsController');
 
