@@ -23,8 +23,6 @@ class ThreadTest extends TestCase
 
         $response = $this->get('/threads')
             ->assertSee($this->$thread->title);
-
-
     }
 
     /** @test */
@@ -58,6 +56,17 @@ class ThreadTest extends TestCase
         $this->get('/threads/' . $channel->slug)
                 ->assertSee($threadInChannel->title)
                 ->assertDontSee($threadNotInChannel->title);
+    }
+
+    function a_user_can_filter_threads_by_any_username()
+    {
+        $this->signIn(create('App\User', ['name' => 'newtonkim']));
+            $threadByNewtonkim = create('App\Thread', ['user_id' => auth()->id()]);
+            $threadNotByNewtonkim = create('App\Thread');
+
+            $this->get('threads?by=newtonkim')
+                ->assertSee($threadByNewtonkim->title)
+                ->assertDontSee($threadNotByNewtonkim->title);
     }
 
 }

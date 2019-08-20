@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Thread;
 use App\Channel;
 use Illuminate\Http\Request;
+use App\Filters\ThreadFilters;
 
 class ThreadController extends Controller
 {
@@ -20,12 +21,26 @@ class ThreadController extends Controller
      */
     public function index(Channel $channel)//route model binding
     {
-        if ($channel->exists){
-            $threads = $channel->threads()->latest()->get();
-        }else {
-            $threads = Thread::latest()->get();
+        // $threads = Thread::latest()->filter($filters);
+         // $threads = $this->getThreads($channel, $filters);
+
+        if ($channel->exists) {
+            $threads = $channel->threads()->latest();
+        }else{
+            $threads = Thread::latest();
         }
+
+        if ($username = request('by')){
+            $user = \App\User::where('name', $username)->firstOrFail();
+            $threads->where('user_id', $user->id);
+
+        }
+
+        $threads = $threads->get();
+
         return view('threads.index', compact('threads'));
+
+
     }
 
     /**
@@ -60,16 +75,7 @@ class ThreadController extends Controller
         ]);
 
         return redirect($thread->path());
-        // $thread = Thread::create([
-        //     'user_id'    => Auth::user()->id,
-        //     'channel_id' => $request->channel_id,
-        //     'title'      => $request->title,
-        //     'body'       => $request->body
-        // ]);
-        // return redirect($thread->path());
-        // return back();
     }
-
     /**
      * Display the specified resource.
      *@param  $channeId
@@ -81,7 +87,6 @@ class ThreadController extends Controller
 
         return view('threads.show', compact('thread'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -90,7 +95,7 @@ class ThreadController extends Controller
      */
     public function edit(Thread $thread)
     {
-        //
+        // Do some editing all in here
     }
 
     /**
@@ -102,7 +107,7 @@ class ThreadController extends Controller
      */
     public function update(Request $request, Thread $thread)
     {
-        //
+        // return view('threads.upate');
     }
 
     /**
@@ -115,4 +120,6 @@ class ThreadController extends Controller
     {
         //
     }
+
+
 }
