@@ -29,11 +29,13 @@
                 @else
                     <p class="text-center">Please <a href="{{ route('login') }}">Sign in </a>to participate in this discussion.</p>
                 @endif
+                <br>
+                 {{ $replies->links()}}
         </div>
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <p>This thread was published {{ $thread->created_at->diffForHumans()}} by <a href="#">{{ $thread->creator->name}}</a> and currently has {{$thread->replies()->count()}} comments</p>
+                    <p>This thread was published {{ $thread->created_at->diffForHumans()}} by <a href="#">{{ $thread->creator->name}}</a> and currently has {{$thread->replies_count}} {{ str_plural('comment', $thread->replies_count) }}  </p>
                 </div>
             </div>
         </div>

@@ -9,6 +9,17 @@ class Thread extends Model
 {
     protected $guarded = [];
 
+    protected static function boot()
+    {
+        parent::boot();
+    //global scope is a query scope that is automatically applied to all the queries
+        static::addGlobalScope('replyCount', function ($builder){
+            $builder->withCount('replies');
+
+        });
+
+    }
+
     public function path()
     {
         return "/threads/{$this->channel->slug }/{$this->id}";
