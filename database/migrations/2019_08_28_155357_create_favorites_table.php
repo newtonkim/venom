@@ -13,12 +13,13 @@ class CreateFavoritesTable extends Migration
      */
     public function up()
     {
-        Schema::create('favorites_table', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('favorited_id');
-            $table->unsignedInteger('favorited_type', 50);
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('favorited_id')->unsigned();
+            $table->string('favorited_type', 50);
             $table->timestamps();
+
             $table->unique(['user_id', 'favorited_id', 'favorited_type']);
         });
     }
