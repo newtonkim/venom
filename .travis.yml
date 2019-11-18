@@ -22,6 +22,12 @@ cache:
     - node_modules
     - vendor
 
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE venom;'
+
 before_script:
   - cp .env.travis .env
   # - sudo mysql -e 'CREATE DATABASE testing;'
@@ -30,9 +36,9 @@ before_script:
   - npm install --save
   - npm run production
   # - mysql_upgrade --force -uroot
-  - mysql -e 'create database venom;'
-  - mysql -u root -e 'CREATE USER `venom`@`localhost` IDENTIFIED BY "password";'
-  - mysql -e 'GRANT ALL ON venom.* TO `venom`@`localhost`;'
+  # - mysql -e 'create database venom;'
+  # - mysql -u root -e 'CREATE USER `venom`@`localhost` IDENTIFIED BY "password";'
+  # - mysql -e 'GRANT ALL ON venom.* TO `venom`@`localhost`;'
   - php artisan key:generate
   - php artisan migrate --no-interaction -vvv
   - php artisan db:seed 
