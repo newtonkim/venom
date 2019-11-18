@@ -1,8 +1,8 @@
 # dist: precise
 # 
 
-os:
-  - linux
+# os:
+#   - linux
 
 language: php
 
@@ -10,7 +10,12 @@ php:
   - 7.2
 
 addons:
-  mariadb: 10.4
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client
 
 cache:
   directories:
@@ -22,7 +27,15 @@ before_script:
   - sudo mysql -e 'CREATE DATABASE testing;'
   - composer self-update
   - composer install --no-interaction
+  - npm install --save
+  - npm run production
+  - mysql_upgrade --force -uroot
+  - mysql -e 'create database venom;'
+  - mysql -u root -e 'CREATE USER `venom`@`localhost` IDENTIFIED BY "password";'
+  - mysql -e 'GRANT ALL ON venom.* TO `venom`@`localhost`;'
+  - php artisan key:generate
   - php artisan migrate --no-interaction -vvv
+  - php artisan db:seed 
 
 script:
   - vendor/bin/phpunit
