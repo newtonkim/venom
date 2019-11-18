@@ -29,7 +29,7 @@ before_script:
   - composer install --no-interaction
   - npm install --save
   - npm run production
-  - mysql_upgrade --force -uroot
+  # - mysql_upgrade --force -uroot
   - mysql -e 'create database venom;'
   - mysql -u root -e 'CREATE USER `venom`@`localhost` IDENTIFIED BY "password";'
   - mysql -e 'GRANT ALL ON venom.* TO `venom`@`localhost`;'
