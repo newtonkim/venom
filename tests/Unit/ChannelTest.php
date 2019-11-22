@@ -9,8 +9,9 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class ChannelTest extends TestCase
 {
     use DatabaseMigrations;
+    
     /**
-     * @test.
+     * @test
      *
      * @return void
      */

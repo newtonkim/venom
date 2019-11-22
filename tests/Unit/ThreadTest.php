@@ -3,21 +3,23 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigration;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ThreadTest extends TestCase
 {
-    use DatabaseMigration;
+    use DatabaseMigrations;
 
     protected $thread;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent:setUp();
 
         $this->thread = create('App\Thread');
 
-        /**@test */
+        /**
+         * @test
+         */
 
         function a_thread_can_make_a_string_path()
         {
@@ -32,7 +34,9 @@ class ThreadTest extends TestCase
         $this->$thread = factory ('App\Thread')->create();
 
     }
-    /**@Test*/
+    /**
+     * @test
+     */
 
     function a_thread_has_a_reply()
     {
@@ -58,7 +62,9 @@ class ThreadTest extends TestCase
         $this->assertCount(1, $this->$thread->replies);
     }
 
-    /** @test */
+    /** 
+     * @test
+     */
 
     function a_thread_beleongs_to_a_channel()
     {

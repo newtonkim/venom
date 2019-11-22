@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Thread;
@@ -69,7 +68,7 @@ class ThreadController extends Controller
      */
     public function show($channeId, Thread $thread)
     {
-        return view('threads.show',  [
+        return view('threads.show', [
                 'thread' => $thread,
                 'replies' => $thread->replies()->paginate(20)
         ]);
@@ -111,6 +110,7 @@ class ThreadController extends Controller
     protected function getThreads(Channel $channel, ThreadFilters $filters)
     {
           $threads = Thread::latest()->filter($filters);
+
             if ($channel->exists) {
                 $threads->where('channel_id', $channel->id);
         }

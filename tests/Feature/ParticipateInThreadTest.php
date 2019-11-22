@@ -5,12 +5,15 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ParticipateInThreadTest extends TestCase
 {
-    use DatabaseMigrations;
+  use DatabaseMigrations;
 
-   /**@test */
+   /**
+    * @test
+    */
 
    function unauthenticated_users_may_not_add_replies()
    {
