@@ -8,7 +8,7 @@
                 <div class="card-header">Forum Thread</div>
 
                 <div class="card-body">
-                    @foreach ($threads as $thread)
+                    @forelse ($threads as $thread)
                             <article>
                                 <div class="level">
                                     <h4 class="flex">
@@ -21,7 +21,10 @@
                                 </div>
                                 <div class="card-body"> {{ $thread->body }}</div>
                             </article>
-                    @endforeach
+                            @empty
+
+                            <p>There are no Results at the Moment</p>
+                    @endforelse
                 </div>
             </div>
         </div>
