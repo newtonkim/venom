@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    use RecordsActivity;
+
     protected $guarded = [];
 
     protected $with = ['creator', 'channel'];
@@ -17,7 +19,10 @@ class Thread extends Model
     //global scope is a query scope that is automatically applied to all the queries
         static::addGlobalScope('replyCount', function ($builder){
             $builder->withCount('replies');
+        });
 
+        static::deleting(function($thread){
+            $thread->replies()->delete();
         });
 
     }
