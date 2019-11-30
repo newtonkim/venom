@@ -15,7 +15,7 @@
                                 <li><a class="navbar-brand" href="/threads?by={{ auth()->user()->name }}">My Threads</a></li>
                                 @endif
                                 <li><a class="navbar-brand" href="/threads?popular=1">Popular Threads</a></li>
-                                <li><a  class="navbar-brand"href="/threads?unanswered=1">Unanswered Threads</a></li>
+                               <!--  <li><a  class="navbar-brand"href="/threads?unanswered=1">Unanswered Threads</a></li> -->
                             </ul>
                         </li>
                         <li><a class="navbar-brand" href="/threads/create">New Thread</a></li>
