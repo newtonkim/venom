@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Thread;
@@ -11,7 +12,6 @@ class ThreadController extends Controller
     public function __constructor()
     {
         $this->middleware('auth')->except(['index','show']);
-
     }
     /**
      * Display a listing of the resource.
@@ -22,9 +22,7 @@ class ThreadController extends Controller
     {
         $threads = $this->getThreads($channel,$filters);
 
-
         return view('threads.index', compact('threads'));
-
     }
 
     /**
@@ -83,7 +81,6 @@ class ThreadController extends Controller
     {
         // Do some editing all in here
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -95,7 +92,6 @@ class ThreadController extends Controller
     {
         // return view('threads.upate');
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -105,18 +101,14 @@ class ThreadController extends Controller
     public function destroy($channel, Thread $thread)
     {
         $this->authorize('update', $thread);
-        // $thread->replies()->delete();
+        $thread->replies()->delete();
         $thread->delete();
-
         return redirect('/threads');
-
         // return reponse([, 204]);
     }
-
     protected function getThreads(Channel $channel, ThreadFilters $filters)
     {
           $threads = Thread::latest()->filter($filters);
-
             if ($channel->exists) {
                 $threads->where('channel_id', $channel->id);
         }

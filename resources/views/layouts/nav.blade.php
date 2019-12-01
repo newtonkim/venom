@@ -15,16 +15,14 @@
                                 <li><a class="navbar-brand" href="/threads?by={{ auth()->user()->name }}">My Threads</a></li>
                                 @endif
                                 <li><a class="navbar-brand" href="/threads?popular=1">Popular Threads</a></li>
-                               <!--  <li><a  class="navbar-brand"href="/threads?unanswered=1">Unanswered Threads</a></li> -->
+                                <li><a  class="navbar-brand"href="/threads?unanswered=1">Unanswered Threads</a></li>
                             </ul>
                         </li>
                         <li><a class="navbar-brand" href="/threads/create">New Thread</a></li>
                           <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                             Channels
-                            </a>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Channels<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                @foreach($channels as $channel)
+                                @foreach(App\Channel::all() as $channel)
                                 <li><a href="/threads/{{$channel->slug}}"> {{$channel->name}}</a></li>
                                 @endforeach
                             </ul>
