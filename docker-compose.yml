@@ -1,0 +1,62 @@
+version: "2.2"
+
+networks:
+    venom-network:
+
+volumes:
+    mysqldata:
+        driver: "local"
+    
+services:
+    venom:
+        container_name: venom
+        build:
+            context: .
+        depends_on:
+            - mysql
+        volumes:
+            - .:/var/www/html/public
+
+            # --- These weird 'volumes' directives...
+            # "the mounting of the volume by docker-compose would supercede the node_modules
+            #  that was installed in your built image. This causes the volume to overwrite
+            #  ontop of the built image.":
+            # http://dchua.com/2016/02/07/getting-npm-packages-to-be-installed-with-docker-compose/
+            - /var/www/html/public/vendor
+            - /var/www/html/public/node_modules
+        ports:
+            - 8080:80
+            - 443:443
+        environment:
+            - WEB_DOCUMENT_ROOT=/var/www/html/public/public
+			- DB_PORT=3306
+			- DB_DATABASE=venom
+			- DB_USERNAME=root
+			- DB_PASSWORD=
+        networks:
+            - venom-network
+        restart: on-failure
+
+    mysql:
+        # cpu_percent: 100
+        cpu_shares: 2
+        mem_limit: 0
+        container_name: mysql
+        image: mysql:5.7
+        volumes:
+            - mysqldata:/var/lib/mysql
+            # local-dir : docker-container-dir
+            - ./mysql:/home
+        ports:
+            - 3307:3306
+        environment:
+            MYSQL_DATABASE: venom
+            MYSQL_USER: root
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_PASSWORD: secret
+        networks:
+            - venom-network
+        restart: on-failure
+
+
+

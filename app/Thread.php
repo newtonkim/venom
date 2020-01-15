@@ -22,7 +22,12 @@ class Thread extends Model
         });
 
         static::deleting(function($thread){
-            $thread->replies()->delete();
+            $thread->replies->each->delete();
+        });
+
+        static::created(function ($thread){
+
+            $thread->recordActivity('created');
         });
 
     }
@@ -40,12 +45,12 @@ class Thread extends Model
 
     public function creator()
     {
-        return $this->BelongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function Channel()
     {
-        return $this->BelongsTo(Channel::class);
+        return $this->belongsTo(Channel::class);
     }
 
     public function addReply($reply)
@@ -58,4 +63,5 @@ class Thread extends Model
     {
         return $filters->apply($query);
     }
+
 }
